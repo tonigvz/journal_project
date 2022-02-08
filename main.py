@@ -17,21 +17,28 @@ for key, value in answer.items():
     choice = value
 
 
-# creating filename as datetime
-today = date.today()
-filename = f"{today}.txt"
+def pick_name():
+    pick = input("Use date as name or type name?")
+    if pick == "date":
+        today = date.today()
+        pagename = f"{today}.txt"
+    else:
+        pagename = f"{input(f'type name:')}.txt"
+
+    return pagename
 
 
 # function that lists the txt files in the folder and the user can choose what to work on from the list of files
 def choose_file():
     pages = [n for n in os.listdir("D:\Journal") if n.endswith(".txt")]
-    for number, filename in enumerate(pages):
-        print(f"{number} {filename}")
+    for number, name in enumerate(pages):
+        print(f"{number} {name}")
     return "".join(pages[int(input(f"select file:"))])
 
 
 # function to write new page
 def write():
+    filename = pick_name()
     with open(filename, "w") as f:
         print("Add your text:")
         while True:
