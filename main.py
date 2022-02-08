@@ -13,7 +13,8 @@ actions = [
 ]
 # launching prompt interface
 answer = inquirer.prompt(actions)
-choice = "".join(value for key, value in answer.items())
+for key, value in answer.items():
+    choice = value
 
 
 # creating filename as datetime
@@ -69,6 +70,7 @@ def delete():
     print(f"working on file {name}")
     if input("Are you sure? ") == "yes":
         os.remove(name)
+        print("The page was deleted")
     else:
         print("Delete cancelled")
 
@@ -76,12 +78,12 @@ def delete():
 # function to perform based on user choice
 def perform(choice):
     act = {
-        "Write new page": write(),
-        "Add to existing page": append(),
-        "Read page": read(),
-        "Delete page": delete(),
+        "Write new page": write,
+        "Add to existing page": append,
+        "Read page": read,
+        "Delete page": delete,
     }
-    return act.get(choice)
+    act[choice]()
 
 
 perform(choice)
