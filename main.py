@@ -19,10 +19,10 @@ for key, value in answer.items():
 
 def pick_name():
     pick = input("Use date as name or type name?")
-    if pick == "date":
+    if (pick == "date") or (pick == "1"):
         today = date.today()
         pagename = f"{today}.txt"
-    else:
+    elif (pick == "type") or (pick == "2"):
         pagename = f"{input(f'type name:')}.txt"
 
     return pagename
@@ -30,7 +30,7 @@ def pick_name():
 
 # function that lists the txt files in the folder and the user can choose what to work on from the list of files
 def choose_file():
-    pages = [n for n in os.listdir("D:\Journal") if n.endswith(".txt")]
+    pages = [n for n in os.listdir("D:\Projects\Journal") if n.endswith(".txt")]
     for number, name in enumerate(pages):
         print(f"{number} {name}")
     return "".join(pages[int(input(f"select file:"))])
@@ -38,12 +38,16 @@ def choose_file():
 
 # function to write new page
 def write():
-    filename = pick_name()
-    with open(filename, "w") as f:
+    name = pick_name()
+    with open(f"D:\Projects\Journal\{name}", "w") as f:
         print("Add your text:")
         while True:
             try:
-                f.writelines(input() + "\n")
+                txt = input()
+                if txt:
+                    f.writelines(txt + "\n")
+                else:
+                    print("empty input")
             except EOFError:
                 break
 
@@ -52,11 +56,15 @@ def write():
 def append():
     name = choose_file()
     print(f"working on file {name}")
-    with open(name, "a") as f:
+    with open(f"D:\Projects\Journal\{name}", "a") as f:
         print("Add your text:")
         while True:
             try:
-                f.writelines(input() + "\n")
+                txt = input()
+                if txt:
+                    f.writelines(txt + "\n")
+                else:
+                    print("empty input")
             except EOFError:
                 break
 
@@ -65,9 +73,8 @@ def append():
 def read():
     name = choose_file()
     print(f"working on file {name}")
-    with open(name, "r") as f:
+    with open(f"D:\Projects\Journal\{name}", "r") as f:
         content = f.read()
-
     print(content)
 
 
@@ -76,10 +83,10 @@ def delete():
     name = choose_file()
     print(f"working on file {name}")
     if input("Are you sure? ") == "yes":
-        os.remove(name)
-        print("The page was deleted")
+        os.remove(f"D:\Projects\Journal\{name}")
+        print("The page was deleted.")
     else:
-        print("Delete cancelled")
+        print("Delete cancelled!")
 
 
 # function to perform based on user choice
